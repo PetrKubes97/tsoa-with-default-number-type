@@ -461,16 +461,18 @@ export class TypeResolver {
       return;
     }
 
+    const defaultNumberType = this.current.defaultNumberType
+
     if (resolution.resolvedType === 'number') {
       if (!parentNode) {
-        return { dataType: 'double' };
+        return { dataType: defaultNumberType};
       }
 
       const tags = getJSDocTagNames(parentNode).filter(name => {
         return ['isInt', 'isLong', 'isFloat', 'isDouble'].some(m => m === name);
       });
       if (tags.length === 0) {
-        return { dataType: 'double' };
+        return { dataType: defaultNumberType };
       }
 
       switch (tags[0]) {
@@ -483,7 +485,7 @@ export class TypeResolver {
         case 'isDouble':
           return { dataType: 'double' };
         default:
-          return { dataType: 'double' };
+          return { dataType: defaultNumberType };
       }
     } else if (resolution.resolvedType === 'string') {
       return {

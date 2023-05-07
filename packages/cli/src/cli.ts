@@ -145,6 +145,10 @@ export const validateSpecConfig = async (config: Config): Promise<ExtendedSpecCo
     config.spec.contact.url = config.spec.contact.url || author?.url;
   }
 
+  if (!config.defaultNumberType) {
+    config.defaultNumberType = 'double';
+  }
+
   if (config.spec.rootSecurity) {
     if (!Array.isArray(config.spec.rootSecurity)) {
       throw new Error('spec.rootSecurity must be an array');
@@ -372,7 +376,7 @@ export async function generateSpecAndRoutes(args: SwaggerArgs, metadata?: Tsoa.M
     const swaggerConfig = await validateSpecConfig(config);
 
     if (!metadata) {
-      metadata = new MetadataGenerator(config.entryFile, compilerOptions, config.ignore, config.controllerPathGlobs, config.spec.rootSecurity).Generate();
+      metadata = new MetadataGenerator(config.entryFile, compilerOptions, config.ignore, config.controllerPathGlobs, config.spec.rootSecurity, config.defaultNumberType).Generate();
     }
 
     await Promise.all([generateRoutes(routesConfig, compilerOptions, config.ignore, metadata), generateSpec(swaggerConfig, compilerOptions, config.ignore, metadata)]);
