@@ -257,8 +257,9 @@ export interface SwaggerArgs extends ConfigArgs {
 }
 
 export function runCLI() {
+
   return yargs(hideBin(process.argv))
-    .usage('Usage: $0 <command> [options]')
+    .usage('Usage: $0 <command> [options] >> Running Petr\'s versions')
     .command(
       'spec',
       'Generate OpenAPI spec',
